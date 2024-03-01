@@ -17,10 +17,19 @@ jobs:
 
       - name: Build for Linux
         run: |
-          go build ./yomitan
+          # Create build directory
+          build_dir="yomitan-import-macos"
+          mkdir -p "$build_dir"
+
+          # Build
+          go build -o "$build_dir" ./yomitan
+          # go build -o "$build_dir" ./yomitan-gtk
+
+          # Zip the build directory
+          zip -r "$build_dir.zip" "$build_dir"
 
       - name: Upload Release Artifacts
         uses: actions/upload-artifact@v3
         with:
-          path: yomitan
+          path: yomitan-import-macos.zip
           name: yomitan-import-macos
